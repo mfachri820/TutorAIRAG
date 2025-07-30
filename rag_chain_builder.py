@@ -1,17 +1,15 @@
 # rag_chain_builder.py
-
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
+from langchain_core.output_parsers import StrOutputParser
 
 def create_rag_chain(llm, retriever):
+    """
+    Membuat RAG chain yang menerima pertanyaan dan konteks secara langsung.
+    """
+    # VVV INI ADALAH PROMPT YANG SUDAH DITERJEMAHKAN VVV
     template = """
-    Anda adalah seorang ahli manajemen proyek. Tugas Anda adalah menjawab pertanyaan pengguna berdasarkan teks yang disediakan.
-
-    Gunakan aturan berikut:
-    1. Berikan jawaban yang jelas dan ringkas.
-    2. Gunakan bahasa yang natural dan mudah dimengerti.
-    3. Jawaban Anda harus sepenuhnya berdasarkan konteks yang diberikan. Jika jawaban tidak ada di dalam teks, katakan demikian.
+    Anda adalah seorang ahli yang menjawab pertanyaan berdasarkan teks yang diberikan.
+    Jawab pertanyaan pengguna secara ringkas dalam satu atau dua kalimat.
 
     Konteks:
     {context}
@@ -21,11 +19,9 @@ def create_rag_chain(llm, retriever):
 
     Jawaban:
     """
-
     prompt = ChatPromptTemplate.from_template(template)
     
-    Youtube_chain = create_stuff_documents_chain(llm, prompt)
+    # Chain ini sekarang akan menghasilkan jawaban dalam Bahasa Indonesia
+    rag_chain = prompt | llm | StrOutputParser()
     
-    rag_chain = create_retrieval_chain(retriever, Youtube_chain)
-    print("RAG chain built successfully.")
     return rag_chain

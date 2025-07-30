@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from langchain_ollama import OllamaLLM
 from langchain_openrouter import OpenRouterLLM
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from langchain_core.output_parsers import StrOutputParser
 
 # Load environment variables
 load_dotenv()
@@ -15,8 +15,14 @@ LLM_PROVIDER = "ollama"
 MODEL_NAME = None
 llm = None
 
+# --- DEDICATED REWRITER LLM ---
+# This uses a more powerful model to reliably handle instructions
+rewriter_llm = OllamaLLM(model="llama3:8b", temperature=0)
+print("✨ Question Rewriter is configured with local model: llama3:8b")
+
+
 if LLM_PROVIDER == "ollama":
-    MODEL_NAME = "qwen2:1.5b"
+    MODEL_NAME = "llama3:8b"
     llm = OllamaLLM(model=MODEL_NAME)
     print("🧠 Using local Ollama model.")
 
@@ -44,14 +50,14 @@ Answer: Let's think step by step."""
 prompt = PromptTemplate(template=template, input_variables=["question"])
 
 # --- LLM CHAIN ---
-llm_chain = LLMChain(prompt=prompt, llm=llm)
+llm_chain = prompt | llm | StrOutputParser()
 
 # --- EXTRA CONFIG (still available for use elsewhere) ---
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 KNOWLEDGE_BASE_PATH = "ekstrak/my_knowledge.txt"
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 100
-USE_ADVANCED_CHUNKER = True
+USE_ADVANCED_CHUNKER = False
 
 # import os
 # from langchain_ollama import OllamaLLM

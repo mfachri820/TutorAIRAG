@@ -1,23 +1,23 @@
+# main.py
 import config
-from data_loader import load_and_split_documents
-from vector_store_manager import create_vector_store
+from manual_retriever import Retriever
 from rag_chain_builder import create_rag_chain
-from filter import create_relevance_checker_chain, is_question_relevant
+from history_rewriter import create_history_rewriter_chain
+from langchain_community.chat_message_histories import ChatMessageHistory
+from reranker import ReRanker
+from langchain_core.documents import Document
 
 def main():
-    """
-    The main function to run the RAG pipeline.
-    """
     llm = config.llm
-
-    documents = load_and_split_documents()
-    vector_store = create_vector_store(documents)
-    retriever = vector_store.as_retriever()
-    rag_chain = create_rag_chain(llm, retriever)
+    rewriter_llm = config.rewriter_llm
+    reranker = ReRanker()
+    retriever = Retriever()
+    rag_chain = create_rag_chain(llm, None)
     
-    relevance_checker = create_relevance_checker_chain(llm)
+    chat_history = ChatMessageHistory()
+    history_rewriter = create_history_rewriter_chain(rewriter_llm, chat_history)
 
-    print("\n--- Document Q&A is Ready! ---")
+    print("\n--- Document Q&A with Memory is Ready! ---")
     print("--- Type 'exit' to quit. ---")
     
     while True:
@@ -26,21 +26,29 @@ def main():
         if question.lower() == 'exit':
             print("Exiting... Goodbye!")
             break
+
+        final_question = history_rewriter.invoke(
+            {"question": question},
+            config={"configurable": {"session_id": "user123"}}
+        )
         
-        retrieved_docs = retriever.invoke(question)
+        print(f"\nFINAL QUESTION (DEBUG): {final_question}")
+
+        # 1. Retrieve a larger number of chunks
+        initial_chunks = retriever.retrieve_context(question, top_k=10)
+        initial_docs = [Document(page_content=chunk['content']) for chunk in initial_chunks]
         
-        print("\n--- RETRIEVED CHUNKS (DEBUG) ---")
-        for i, doc in enumerate(retrieved_docs):
+        # 2. Re-rank to get the best chunks
+        reranked_docs = reranker.rerank(question, initial_docs, top_k=4)
+        
+        print("\n--- RE-RANKED CHUNKS (DEBUG) ---")
+        for i, doc in enumerate(reranked_docs):
             print(f"--- Chunk {i+1} ---\n{doc.page_content}\n")
-        print("--- END OF RETRIEVED CHUNKS ---\n")
+        print("--- END OF RE-RANKED CHUNKS ---\n")
         
-        if is_question_relevant(relevance_checker, retrieved_docs, question):
-            response = rag_chain.invoke({"input": question})
-            print("\nAnswer:")
-            print(response["answer"])
-        else:
-            print("\nAnswer:")
-            print("Maaf, pertanyaan tersebut di luar lingkup dokumen yang saya miliki.")
+        answer = rag_chain.invoke({"input": question, "context": reranked_docs})
+        print("\nAnswer:")
+        print(answer)
 
 if __name__ == "__main__":
     main()
