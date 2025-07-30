@@ -1,0 +1,189 @@
+**MODUL 1: PENGANTAR MANAJEMEN PROYEK**
+
+---
+
+### **Pendahuluan**
+
+Manajemen proyek merupakan aspek penting dalam membangun sistem informasi dalam perusahaan. Banyak proyek teknologi informasi yang gagal karena kurangnya pengetahuan dalam mengelola proyek sistem informasi.
+
+Modul ini membahas:
+
+* Konsep dan pengertian proyek
+* Karakteristik dan atribut proyek
+* Manajemen proyek
+* Siklus manajemen proyek
+* Siklus pengembangan sistem informasi
+* Bentuk organisasi proyek
+* Peran dan tanggung jawab manajer proyek dan tim
+
+### **Tujuan Pembelajaran**
+
+Setelah mempelajari Modul 1, Anda diharapkan mampu:
+
+1. Menjelaskan pengertian manajemen proyek
+2. Menjelaskan konsep manajemen proyek
+3. Menguraikan siklus manajemen proyek
+4. Menguraikan siklus pengembangan sistem informasi
+5. Menjelaskan bentuk-bentuk organisasi
+6. Memilih bentuk organisasi yang sesuai dengan spesifikasi proyek
+7. Menjelaskan peran dan tanggung jawab manajer proyek
+8. Menjelaskan peran dan tanggung jawab anggota tim proyek
+
+---
+
+## **1.4 Pengantar Manajemen Proyek**
+
+### **A. Konsep dan Pengertian Proyek**
+
+Proyek adalah tugas yang dirancang untuk mencapai tujuan konkret dalam waktu terbatas, menggunakan sumber daya manusia dan alat terbatas.
+
+**Definisi Proyek menurut para ahli:**
+
+1. **Larson**: Kegiatan kompleks, tidak rutin, dibatasi waktu, anggaran, dan sumber daya.
+2. **Rakos**: Dimulai dengan masalah yang dihadapi user.
+3. **Cleland & King**: Gabungan sumber daya dalam organisasi temporer untuk tujuan tertentu.
+4. **Schwalbe**: Usaha temporer menghasilkan produk/layanan unik.
+5. **Macapagal & Macasio**: Kegiatan temporer dengan output tertentu dalam jangka waktu tertentu.
+6. **Kerzner**: Serangkaian aktivitas untuk tujuan spesifik dengan batasan anggaran, waktu, dan sumber daya.
+7. **Chapman**: Usaha temporer dengan batasan dan risiko.
+8. **PMBOK**: Usaha temporer menghasilkan produk atau jasa unik.
+
+**Karakteristik Proyek:**
+
+1. Tujuan spesifik
+2. Bersifat sementara
+3. Produk/layanan unik
+4. Aktivitas baru
+5. Membutuhkan waktu, biaya, dan sumber daya khusus
+
+**Jenis Proyek:**
+
+1. **Proyek konstruksi** (gedung, jembatan)
+2. **Penelitian dan pengembangan**
+3. **Manajemen jasa** (sistem informasi, produktivitas)
+
+**Atribut Proyek (Schwalbe):**
+
+1. Tujuan unik
+2. Waktu terbatas (ada awal dan akhir)
+3. Membutuhkan alat kontrol (Gantt Chart, PERT)
+4. Sumber daya lintas bidang
+5. Sponsor utama
+6. Mengandung ketidakpastian
+
+**Perbedaan Proyek vs Operasional:**
+
+| No | Proyek                  | Operasional               |
+| -- | ----------------------- | ------------------------- |
+| 1  | Dinamis, tidak rutin    | Berulang dan rutin        |
+| 2  | Siklus pendek           | Jangka panjang            |
+| 3  | Intensitas berubah-ubah | Intensitas relatif sama   |
+| 4  | Kebutuhan berubah-ubah  | Kebutuhan relatif konstan |
+
+---
+
+### **B. Manajemen Proyek**
+
+**Pengertian Manajemen:**
+
+* **George R. Terry**: Proses perencanaan, pengorganisasian, penggerakan, pengawasan.
+* **Henry Fayol**: Proses perencanaan dan pengawasan sumber daya.
+
+**Tujuan Manajemen:**
+
+1. Menentukan strategi efektif dan efisien
+2. Evaluasi dan penyesuaian strategi
+
+**Fungsi Manajemen (Henry Fayol):**
+
+1. **Perencanaan (Planning)**: Menentukan langkah awal untuk mencapai tujuan.
+2. **Pengorganisasian (Organizing)**: Pembagian tugas dan struktur organisasi.
+3. **Pengarahan (Directing)**: Mengarahkan pekerjaan sesuai rencana.
+4. **Pengawasan (Controlling)**: Menilai hasil dan kualitas kerja.
+
+**Definisi Manajemen Proyek:**
+
+* Aplikasi pengetahuan, keterampilan, alat, dan teknik untuk memenuhi kebutuhan proyek (PMBOK).
+* Proses perencanaan, pengorganisasian, pengarahan, pengendalian untuk tujuan jangka pendek (Kerzner).
+* Prinsip dan teknik mengelola tim, jadwal, biaya, dan risiko (Chapman).
+
+**5 Proses Manajemen Proyek:**
+
+1. Initiating
+2. Planning
+3. Executing
+4. Monitoring & Controlling
+5. Closing
+
+**Batasan Proyek:**
+
+* Lingkup pekerjaan
+* Waktu
+* Risiko
+* Kualitas
+* Sumber daya
+* Biaya
+
+**Tujuan Manajemen Proyek (Ismael):**
+
+1. Tepat waktu
+2. Biaya sesuai
+3. Kualitas sesuai
+4. Proses sesuai
+
+**Manfaat Manajemen Proyek:**
+s
+1. Efisiensi waktu, biaya, sumber daya
+2. Kontrol proyek lebih baik
+3. Kualitas meningkat
+4. Produktivitas meningkat
+5. Risiko lebih kecil
+6. Koordinasi internal lebih baik
+7. Tanggung jawab dan semangat tim meningkat
+
+---
+
+### **C. Pengembangan Sistem Informasi**
+
+**Pengertian Sistem Informasi:**
+
+* **Laudon & Laudon**: Komponen saling terkait untuk mengolah informasi.
+* **O’Brien**: Kombinasi manusia, perangkat keras/lunak, jaringan, data, kebijakan, prosedur.
+
+**SDLC (System Development Life Cycle)**
+Tahapan dalam membangun sistem informasi:
+
+1. **Planning (Perencanaan):**
+
+   * Evaluasi persyaratan proyek
+   * Menentukan tujuan, ruang lingkup, jadwal, dan tim
+
+2. **Analysis (Analisis):**
+
+   * Mendefinisikan kebutuhan bisnis, stakeholder, end-user, sistem, software
+
+3. **Design (Desain):**
+
+   * **Desain logik:** Alur proses dan data
+   * **Desain fisik:** Deskripsi teknologi dan spesifikasi sistem
+
+4. **Software Development (Pembangunan):**
+
+   * Pemrograman perangkat lunak sesuai desain
+
+5. **Testing (Pengujian):**
+
+   * Verifikasi sistem sesuai kebutuhan
+
+6. **Deployment (Penyebaran):**
+
+   * Instalasi dan pelatihan pengguna
+
+7. **Operations & Maintenance (Operasional & Pemeliharaan):**
+
+   * Sistem berjalan, perbaikan bug, update fitur
+
+---
+
+**Penutup**
+Pemahaman terhadap manajemen proyek dan siklus pengembangan sistem informasi sangat krusial untuk memastikan proyek berjalan dengan baik, sesuai waktu, anggaran, dan kualitas yang diharapkan.
