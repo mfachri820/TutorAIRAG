@@ -29,7 +29,7 @@ with open("wbs_metadata.pkl", "rb") as f:
     metadata = pickle.load(f)
 
 # === Load model embedding ===
-model = SentenceTransformer("intfloat/e5-base-v2")
+model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 # === Translation cache ===
 translation_cache = {}
@@ -56,8 +56,7 @@ def translate_if_needed(text, target_lang="en"):
 
 # === Enhanced query preprocessing ===
 def preprocess_query(self, query: str) -> str:
-    """Adds the required prefix to the query for the e5-base-v2 model."""
-    return f"query: {query}"
+    return query
 
 # === Keyword-based filtering ===
 def keyword_filter(chunks, query, boost_factor=0.15):
@@ -141,16 +140,24 @@ def retrieve_context(user_question, config=None):
     
     # Translate if needed
     question_translated, detected_lang = translate_if_needed(user_question)
-    processed_query = preprocess_query(question_translated)
-    
+    processed_query = preprocess_query(question_translated, question_translated)
+
     print(f"🔍 Original query: {user_question}")
     print(f"🔍 Processed query: {processed_query}")
     print(f"🌐 Detected language: {detected_lang}")
     
     # STAGE 1: FAISS Retrieval
     question_embedding = model.encode([processed_query], convert_to_numpy=True)
-    distances, indices = index.search(question_embedding, config['faiss_top_k'])
-    
+    question_embedding = np.asarray(question_embedding, dtype=np.float32)
+
+    # Pastikan bentuknya 2D (1, dim)
+    if len(question_embedding.shape) == 1:
+        question_embedding = np.expand_dims(question_embedding, axis=0)
+
+    assert question_embedding.shape[1] == index.d, \
+        f"❌ Dimensi embedding ({question_embedding.shape[1]}) ≠ index FAISS ({index.d})"
+
+    distances, indices = index.search(question_embedding, config['faiss_top_k'])    
     print(f"\n📊 Stage 1 - FAISS Retrieved: {config['faiss_top_k']} candidates")
     
     # Convert FAISS results to chunks with proper scoring
@@ -217,37 +224,3 @@ def retrieve_context(user_question, config=None):
     
     return clean_chunks, detected_lang
 
-# === Alternative simple retrieval ===
-def simple_retrieve(user_question, top_k=5):
-    """Pure FAISS retrieval without post-processing"""
-    question_translated, detected_lang = translate_if_needed(user_question)
-    processed_query = preprocess_query(question_translated)
-    
-    question_embedding = model.encode([processed_query], convert_to_numpy=True)
-    distances, indices = index.search(question_embedding, top_k)
-    
-    results = []
-    for i, idx in enumerate(indices[0]):
-        if idx < len(metadata):
-            results.append({
-                **metadata[idx],
-                'distance': float(distances[0][i]),
-                'rank': i + 1
-            })
-    
-    return results, detected_lang
-
-# === Test function ===
-def test_retrieval(query, method='enhanced', config=None):
-    """Test retrieval with different methods"""
-    print(f"\n🧪 Testing query: '{query}'")
-    
-    if method == 'simple':
-        chunks, lang = simple_retrieve(query)
-        print("\n📊 Simple Retrieval Results:")
-        for i, chunk in enumerate(chunks):
-            print(f"{i+1}. {chunk['source']} (distance: {chunk['distance']:.4f})")
-            print(f"   {chunk['content'][:100]}...")
-    else:
-        chunks, lang = retrieve_context(query, config)
-        print(f"\n📊 Enhanced Retrieval Results: {len(chunks)} chunks")
